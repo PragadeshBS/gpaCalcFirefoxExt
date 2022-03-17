@@ -1,0 +1,18 @@
+{
+  "manifest_version": 2,
+  "name": "GPA Calculator - MIT, AU",
+  "version": "1.0",
+
+  "description": "GPA calculator for MIT, Anna University.",
+  "icons": {
+    "48": "icons/ico-48.png",
+    "96": "icons/ico-96.png"
+  },
+
+  "browser_action": {
+    "default_icon": "icons/ico-32.png",
+    "default_title": "CGPA",
+    "default_popup": "popup/index.html"
+  },
+  "permissions": ["*://acoe.annauniv.edu/sems/student/mark/*"]
+}
