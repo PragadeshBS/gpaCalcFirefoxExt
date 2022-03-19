@@ -10,6 +10,10 @@ For now, works only for
 
 Using Chromium or its forks? Checkout the [Chrome Extension](https://github.com/PragadeshBS/gpaCalcChromeExt)
 
+## Screenshots
+<img src="screenshots/ff1.png" width="75%">
+<img src="screenshots/ff2.png" width="75%">
+
 ## Installation
 ### Mozilla Firefox, LibreWolf and most other Firefox forks
 Grab the extension from [here](https://addons.mozilla.org/en-US/firefox/addon/augpa/)
