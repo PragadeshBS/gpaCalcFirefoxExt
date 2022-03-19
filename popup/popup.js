@@ -1,11 +1,11 @@
-function reportExecuteScriptError(error) {
-  document.querySelector("#popup-content").classList.add("hidden");
-  document.querySelector("#error-content").classList.remove("hidden");
-  // document.querySelector("#error-content").textContent = error.message;
+function showErr() {
+  const errDiv = document.querySelector("#data-error");
+  const succDiv = document.querySelector("#data-success");
+  succDiv.classList.add("hidden");
+  errDiv.classList.remove("hidden");
 }
 
 function initScripts() {
-  const test = document.querySelector("#test");
   function calc(tabs) {
     browser.tabs.sendMessage(tabs[0].id, { command: "calculateGPA" });
   }
@@ -97,7 +97,7 @@ function initScripts() {
     gpa.textContent = finalGpa.toFixed(3);
   }
 
-  getActiveTab().then(calc).catch(reportExecuteScriptError);
+  getActiveTab().then(calc).catch(showErr);
 
   browser.runtime.onMessage.addListener((message) => {
     if (message.command === "update-ui") {
@@ -109,4 +109,4 @@ function initScripts() {
 browser.tabs
   .executeScript({ file: "/content-script.js" })
   .then(initScripts)
-  .catch(reportExecuteScriptError);
+  .catch(showErr);

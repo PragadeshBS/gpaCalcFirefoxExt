@@ -4,10 +4,6 @@
   }
   window.hasRun = true;
 
-  function getActiveTab() {
-    return browser.tabs.query({ active: true, currentWindow: true });
-  }
-
   function calculateGPA() {
     const regulation = document.querySelector("#regulation").value;
     const branch = document.querySelector("#branch").value;
