@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "GPA Calculator - MIT, AU",
-  "version": "1.2",
+  "version": "1.21",
 
   "description": "GPA calculator for MIT, Anna University.",
   "icons": {

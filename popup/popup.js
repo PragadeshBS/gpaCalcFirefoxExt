@@ -24,8 +24,9 @@ function initScripts() {
     const dataError = document.getElementById("data-error");
 
     // grades not found
-    if (!data || !data.grades || data.grades.length == 0 || !data.grades[0].grade) {
-      dataError.textContent = "Could not find your grades, try a different sem 👻";
+    if (!data || !data.grades || data.grades.length == 0) {
+      dataError.textContent =
+        "Could not find your grades, try a different sem 👻";
       dataError.classList.remove("hidden");
       return;
     }
@@ -92,7 +93,7 @@ function initScripts() {
     tableContent.appendChild(newTr);
 
     // gpa
-    gpaCalc.textContent = `${pointsSum}/${creditsSum} = `
+    gpaCalc.textContent = `${pointsSum}/${creditsSum} = `;
     const finalGpa = pointsSum / creditsSum;
     gpa.textContent = finalGpa.toFixed(3);
   }
