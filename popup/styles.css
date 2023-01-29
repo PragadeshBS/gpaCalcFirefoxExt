@@ -4,7 +4,7 @@
 }
 
 body {
-  max-width: 400px;
+  width: 600px;
 }
 
 .hidden {
@@ -23,6 +23,10 @@ body {
 
 #gpa{
   color: orangered;
+}
+
+#cgpa{
+  color: darkslateblue;
 }
 
 .header {

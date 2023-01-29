@@ -14,5 +14,5 @@
     "default_title": "CGPA",
     "default_popup": "popup/index.html"
   },
-  "permissions": ["*://acoe.annauniv.edu/sems/student/mark/*"]
+  "permissions": ["*://acoe.annauniv.edu/sems/student/mark/*", "storage"]
 }
