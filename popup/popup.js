@@ -1,8 +1,51 @@
-function showErr() {
-  const errDiv = document.querySelector("#data-error");
+async function showErr() {
   const succDiv = document.querySelector("#data-success");
-  succDiv.classList.add("hidden");
-  errDiv.classList.remove("hidden");
+  const gpaSection = document.querySelector("#gpa-div");
+  const cgpaSection = document.querySelector("#cgpa-div");
+  succDiv.classList.remove("hidden");
+  gpaSection.classList.add("hidden");
+  cgpaSection.classList.remove("col-3");
+  cgpaSection.classList.remove("col-12");
+  await calculateCGPA();
+}
+
+async function calculateCGPA() {
+  // calculate cgpa
+  let cgpaPointsSum = 0,
+    cgpaCreditsSum = 0;
+
+  await browser.storage.local.get().then((gpaWithCredits) => {
+    // update the cgpa table
+    for (let i = 1; i <= 8; i++) {
+      const gpaCell = document.getElementById("gpa" + i);
+      const creditsCell = document.getElementById("credits" + i);
+      if (!gpaWithCredits[i]) {
+        gpaCell.textContent = "-";
+        creditsCell.textContent = "-";
+        continue;
+      }
+      const thisSemGpa = JSON.parse(gpaWithCredits[i]);
+      if (thisSemGpa["totalCredits"] == 0 || thisSemGpa["totalPoints"] == 0) {
+        gpaCell.textContent = "-";
+        creditsCell.textContent = "-";
+        continue;
+      }
+      gpaCell.textContent = thisSemGpa["totalPoints"];
+      cgpaPointsSum += thisSemGpa["totalPoints"];
+      creditsCell.textContent = thisSemGpa["totalCredits"];
+      cgpaCreditsSum += thisSemGpa["totalCredits"];
+    }
+  });
+
+  // show cgpa
+  const cgpa = document.getElementById("cgpa");
+  const cgpaCalc = document.getElementById("cgpaCalc");
+  if (cgpaCreditsSum == 0 && cgpaPointsSum == 0) {
+    cgpa.textContent = "No data available";
+    return;
+  }
+  cgpaCalc.textContent = `${cgpaPointsSum}/${cgpaCreditsSum}`;
+  cgpa.textContent = (cgpaPointsSum / cgpaCreditsSum).toFixed(3);
 }
 
 function initScripts() {
@@ -22,6 +65,7 @@ function initScripts() {
     const gpaCalc = document.getElementById("gpaCalc");
     const gpa = document.getElementById("gpa");
     const dataError = document.getElementById("data-error");
+    const gpaSection = document.querySelector("#gpa-div");
 
     // grades not found
     if (!data || !data.grades || data.grades.length == 0) {
@@ -34,6 +78,7 @@ function initScripts() {
     // success
     dataError.classList.add("hidden");
     dataSuccess.classList.remove("hidden");
+    gpaSection.classList.remove("hidden");
     sem.textContent = data.sem;
     let pointsSum = 0,
       creditsSum = 0;
@@ -104,40 +149,7 @@ function initScripts() {
       totalCredits: creditsSum,
     });
     browser.storage.local.set(contentToStore);
-
-    // calculate cgpa
-    let cgpaPointsSum = 0,
-      cgpaCreditsSum = 0;
-
-    await browser.storage.local.get().then((gpaWithCredits) => {
-      // update the cgpa table
-      for (let i = 1; i <= 8; i++) {
-        const gpaCell = document.getElementById("gpa" + i);
-        const creditsCell = document.getElementById("credits" + i);
-        if (!gpaWithCredits[i]) {
-          gpaCell.textContent = "-";
-          creditsCell.textContent = "-";
-          continue;
-        }
-        const thisSemGpa = JSON.parse(gpaWithCredits[i]);
-        if (thisSemGpa["totalCredits"] == 0 || thisSemGpa["totalPoints"] == 0) {
-          gpaCell.textContent = "-";
-          creditsCell.textContent = "-";
-          continue;
-        }
-        gpaCell.textContent = thisSemGpa["totalPoints"];
-        cgpaPointsSum += thisSemGpa["totalPoints"];
-        creditsCell.textContent = thisSemGpa["totalCredits"];
-        cgpaCreditsSum += thisSemGpa["totalCredits"];
-      }
-    });
-
-    // show cgpa
-    cgpaPointsSum = cgpaPointsSum;
-    const cgpaCalc = document.getElementById("cgpaCalc");
-    cgpaCalc.textContent = `${cgpaPointsSum}/${cgpaCreditsSum}`;
-    const cgpa = document.getElementById("cgpa");
-    cgpa.textContent = (cgpaPointsSum / cgpaCreditsSum).toFixed(3);
+    await calculateCGPA();
   }
 
   getActiveTab().then(calc).catch(showErr);

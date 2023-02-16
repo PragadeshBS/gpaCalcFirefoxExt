@@ -9,14 +9,17 @@
 
   <body>
     <div class="header text-center">
-      <h1 class="display-6 fw-bold">GPA Calculator</h1>
+      <h1 class="display-6 fw-bold">CGPA Calculator</h1>
       <small>For CEG & MIT, AU</small>
     </div>
     <div class="content">
       <div id="popup-content">
+        <div id="data-error">
+          ⚠️ Visit <b>Attendance & Marks</b> section in SEMS for up-to-date data
+        </div>
         <div id="data-success" class="hidden">
           <div class="row container">
-            <div class="col-3 container">
+            <div class="col-3 container" id="cgpa-div">
               <div class="lead text-center pt-1">CGPA</div>
               <table class="table">
                 <thead>
@@ -75,7 +78,7 @@
               </div>
             </div>
             <div class="col-2"></div>
-            <div class="col-5 container">
+            <div class="col-5 container" id="gpa-div">
               <div class="lead text-center pt-1">
                 GPA for Sem: <span id="sem"></span>/8
               </div>
@@ -96,10 +99,6 @@
               </div>
             </div>
           </div>
-        </div>
-        <div id="data-error">
-          To calculate GPA, visit
-          <b>Attendance & Marks</b> section in SEMS 🐻
         </div>
       </div>
     </div>
