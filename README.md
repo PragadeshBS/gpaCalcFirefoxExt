@@ -2,7 +2,7 @@
 
 A Firefox extension for calculating CGPA/GPA for CEG & MIT, Anna University students.
 
-![Visits](https://gpvc.arturio.dev/PragadeshBSgpaCalcFirefoxExt)
+![](https://komarev.com/ghpvc/?username=PragadeshBSgpaCalcFirefoxExt&label=Views)
 
 For now, works only for
 
