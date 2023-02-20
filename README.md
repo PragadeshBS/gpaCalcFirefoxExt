@@ -4,6 +4,11 @@ A Firefox extension for calculating CGPA/GPA for CEG & MIT, Anna University stud
 
 ![](https://komarev.com/ghpvc/?username=PragadeshBSgpaCalcFirefoxExt&label=Views)
 
+## Features
+- View CGPA 
+- View GPA for individual semesters
+- Visualize your performance over time with a graph of your CGPA over the semesters
+
 For now, works only for
 
 - Regulation 2019 - IT, ECE
@@ -26,7 +31,7 @@ Grab the extension from [here](https://addons.mozilla.org/en-US/firefox/addon/au
 
 - Visit the **Attendance & Marks** section in your SEMS dashboard.
 - Choose the preferred semester for which you want to calculate your GPA.
-- Click on the _GPA Calculator_ extension icon in the browser toolbar
+- Click on the _CGPA Calculator_ extension icon in the browser toolbar
 - Voilà you get the individual grade points for each subject, as well as the Grade Point Average for that entire semester.
 - Visit each semester to calculate your CGPA as well
 
