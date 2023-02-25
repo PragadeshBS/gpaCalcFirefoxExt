@@ -1,11 +1,9 @@
-async function showErr() {
-  const succDiv = document.querySelector("#data-success");
-  const gpaSection = document.querySelector("#gpa-div");
-  const cgpaSection = document.querySelector("#cgpa-div");
-  succDiv.classList.remove("hidden");
-  gpaSection.classList.add("hidden");
-  cgpaSection.classList.remove("col-3");
-  cgpaSection.classList.remove("col-12");
+async function showErr(err) {
+  console.log(err);
+  const curViewSemesterInfoDiv = document.getElementById(
+    "cur-view-semester-info"
+  );
+  curViewSemesterInfoDiv.classList.add("d-none");
   await calculateCGPA();
 }
 
@@ -13,186 +11,113 @@ async function calculateCGPA() {
   // calculate cgpa
   let cgpaPointsSum = 0,
     cgpaCreditsSum = 0,
-    xValues = [],
-    yValues = [];
+    dataAvailableSemesters = [];
 
-  await browser.storage.local.get().then((gpaWithCredits) => {
+  await browser.storage.local.get().then((localStorage) => {
     // update the cgpa table
+    const semesters = localStorage.semesters;
+    if (semesters && semesters.length > 0) {
+      semesters.sort();
+      dataAvailableSemesters = semesters;
+    } else {
+      return;
+    }
     for (let i = 1; i <= 8; i++) {
-      const gpaCell = document.getElementById("gpa" + i);
-      const creditsCell = document.getElementById("credits" + i);
-      if (!gpaWithCredits[i]) {
-        gpaCell.textContent = "-";
-        creditsCell.textContent = "-";
+      if (!localStorage[i + "-pointsCredits"]) {
         continue;
       }
-      const thisSemGpa = JSON.parse(gpaWithCredits[i]);
+      const thisSemGpa = localStorage[i + "-pointsCredits"];
       if (thisSemGpa["totalCredits"] == 0 || thisSemGpa["totalPoints"] == 0) {
-        gpaCell.textContent = "-";
-        creditsCell.textContent = "-";
         continue;
       }
-      xValues.push(i);
-      gpaCell.textContent = thisSemGpa["totalPoints"];
       cgpaPointsSum += thisSemGpa["totalPoints"];
-      creditsCell.textContent = thisSemGpa["totalCredits"];
       cgpaCreditsSum += thisSemGpa["totalCredits"];
-      yValues.push(cgpaPointsSum / cgpaCreditsSum);
     }
   });
 
   // show cgpa
-  const cgpa = document.getElementById("cgpa");
-  const cgpaCalc = document.getElementById("cgpaCalc");
-  if (cgpaCreditsSum == 0 && cgpaPointsSum == 0) {
-    cgpa.textContent = "No data available";
+  const dataDiv = document.getElementById("data");
+  const noDataDiv = document.getElementById("no-data");
+  if (cgpaCreditsSum == 0 || cgpaPointsSum == 0) {
+    noDataDiv.classList.remove("d-none");
+    dataDiv.classList.add("d-none");
     return;
+  } else {
+    noDataDiv.classList.add("d-none");
+    dataDiv.classList.remove("d-none");
   }
-  cgpaCalc.textContent = `${cgpaPointsSum}/${cgpaCreditsSum}`;
+
+  const cgpa = document.getElementById("cgpa-val");
+  const dataAvailableSemestersDiv = document.getElementById(
+    "data-available-semesters"
+  );
+  if (dataAvailableSemesters.length > 0) {
+    dataAvailableSemestersDiv.textContent = dataAvailableSemesters.join(", ");
+  }
   cgpa.textContent = (cgpaPointsSum / cgpaCreditsSum).toFixed(3);
-
-  // plot cgpa graph
-  plotGraph(xValues, yValues);
 }
 
-function plotGraph(x, y) {
-  const trace1 = {
-    x,
-    y,
-    mode: "lines+markers",
-    marker: {
-      color: "darkslateblue",
-      size: 8,
-    },
-    line: {
-      color: "darkslateblue",
-      width: 1,
-    },
-  };
-  const layout = {
-    title: "CGPA Over Semesters",
-    xaxis: {
-      title: "Semester",
-      showgrid: false,
-      zeroline: false,
-    },
-    yaxis: {
-      title: "CGPA",
-      showline: false,
-    },
-  };
-  Plotly.newPlot("plot", [trace1], layout);
-}
+// add event listeners for detailed view
+const detailedViewBtn = document.getElementById("detailed-view-btn");
+detailedViewBtn.addEventListener("click", async () => {
+  browser.tabs.create({ active: true, url: "../tab/index.html" });
+  const tabs = await browser.tabs.query({});
+  console.log(tabs);
+  // getActiveTab().then(showDetailedView).catch(showErr);
+});
 
 function initScripts() {
   function calc(tabs) {
-    browser.tabs.sendMessage(tabs[0].id, { command: "calculateGPA" });
+    browser.tabs
+      .sendMessage(tabs[0].id, { command: "calculateGPA" })
+      .catch(showErr);
   }
 
   function getActiveTab() {
     return browser.tabs.query({ active: true, currentWindow: true });
   }
 
-  async function updateUI(data) {
+  async function storeSemData(data) {
     // get dom elements
-    const dataSuccess = document.getElementById("data-success");
-    const sem = document.getElementById("sem");
-    const tableContent = document.getElementById("gradesTable");
-    const gpaCalc = document.getElementById("gpaCalc");
-    const gpa = document.getElementById("gpa");
-    const dataError = document.getElementById("data-error");
-    const gpaSection = document.querySelector("#gpa-div");
+    const noSemsDiv = document.getElementById("no-sems");
+    const dataDiv = document.getElementById("data");
+    const noDataDiv = document.getElementById("no-data");
+    const curViewSem = document.getElementById("cur-view-semester");
 
-    // grades not found
-    if (!data || !data.grades || data.grades.length == 0) {
-      dataError.textContent =
-        "Could not find your grades, try a different sem 👻";
-      dataError.classList.remove("hidden");
-      return;
-    }
+    noSemsDiv.classList.add("d-none");
+    noDataDiv.classList.add("d-none");
+    dataDiv.classList.remove("d-none");
+    curViewSem.textContent = data.sem;
 
-    // success
-    dataError.classList.add("hidden");
-    dataSuccess.classList.remove("hidden");
-    gpaSection.classList.remove("hidden");
-    sem.textContent = data.sem;
     let pointsSum = 0,
       creditsSum = 0;
+
     for (const grade of data.grades) {
       const credit = getCredit(grade.subCode);
       const points = credit * gradePoint(grade.grade);
       pointsSum += points;
       creditsSum += credit;
-      const newTr = document.createElement("tr");
-
-      // subcode
-      const subCodeTd = document.createElement("td");
-      subCodeTd.textContent = grade.subCode;
-      newTr.appendChild(subCodeTd);
-
-      // grade
-      const gradeTd = document.createElement("td");
-      gradeTd.textContent = grade.grade;
-      newTr.appendChild(gradeTd);
-
-      // credit
-      const creditTd = document.createElement("td");
-      creditTd.textContent = credit;
-      newTr.appendChild(creditTd);
-
-      // point
-      const pointTd = document.createElement("td");
-      pointTd.textContent = points;
-      newTr.appendChild(pointTd);
-
-      // add row to table
-      tableContent.appendChild(newTr);
     }
-    // final row for total of credits & points
 
-    // heading
-    const newTr = document.createElement("tr");
-    const totalHeadTh = document.createElement("th");
-    totalHeadTh.setAttribute("scope", "row");
-    totalHeadTh.textContent = "Total";
-    newTr.appendChild(totalHeadTh);
+    // store this semester's points and credits in local storage
+    const contentToStore = {
+      [`${data.sem}-pointsCredits`]: {
+        totalPoints: pointsSum,
+        totalCredits: creditsSum,
+      },
+    };
+    await browser.storage.local.set(contentToStore);
 
-    // none for grade
-    const gradeTotalTd = document.createElement("td");
-    gradeTotalTd.textContent = "-";
-    newTr.appendChild(gradeTotalTd);
-
-    // credit total
-    const totalCreditTd = document.createElement("td");
-    totalCreditTd.textContent = creditsSum;
-    newTr.appendChild(totalCreditTd);
-
-    // points total
-    const totalPointsTd = document.createElement("td");
-    totalPointsTd.textContent = pointsSum;
-    newTr.appendChild(totalPointsTd);
-    tableContent.appendChild(newTr);
-
-    // gpa
-    gpaCalc.textContent = `${pointsSum}/${creditsSum} = `;
-    const finalGpa = pointsSum / creditsSum;
-    gpa.textContent = finalGpa.toFixed(3);
-
-    // store this semester's points and credits
-    const contentToStore = {};
-    contentToStore[data.sem] = JSON.stringify({
-      totalPoints: pointsSum,
-      totalCredits: creditsSum,
-    });
-    browser.storage.local.set(contentToStore);
     await calculateCGPA();
   }
 
   getActiveTab().then(calc).catch(showErr);
 
   browser.runtime.onMessage.addListener((message) => {
-    if (message.command === "update-ui") {
-      updateUI(message);
+    if (message.command === "storeSemData") {
+      storeSemData(message);
+    } else if (message.command === "showErr") {
+      showErr(message.errMessage);
     }
   });
 }

@@ -18,8 +18,8 @@ Using Chromium or its forks? Checkout the [Chrome Extension](https://github.com/
 
 ## Screenshots
 
+<img src="screenshots/ff1.png" width="75%">
 <img src="screenshots/ff2.png" width="75%">
-<img src="screenshots/ff3.png" width="75%">
 
 ## Installation
 

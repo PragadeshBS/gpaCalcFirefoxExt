@@ -1,9 +1,9 @@
 {
   "manifest_version": 2,
-  "name": "CGPA Calculator - MIT, AU",
-  "version": "2.2",
+  "name": "CGPA Calculator - CEG & MIT, AU",
+  "version": "2.21",
 
-  "description": "CGPA calculator for MIT, Anna University.",
+  "description": "CGPA calculator for CEG & MIT, Anna University.",
   "icons": {
     "48": "icons/ico-48.png",
     "96": "icons/ico-96.png"

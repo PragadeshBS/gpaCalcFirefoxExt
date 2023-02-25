@@ -1,0 +1,20 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  width: 600px;
+  background-color: #f1faee;
+  color: #1d3557;
+}
+
+#cgpa-val {
+  color: #e63946;
+}
+
+.header {
+  color: white;
+  border-radius: 0 0 5px 5px;
+  background: linear-gradient(90deg, #1cb5e0 0%, #000851 100%);
+}

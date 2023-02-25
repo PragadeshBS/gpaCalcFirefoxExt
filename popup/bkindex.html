@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="../bootstrap/bootstrap.min.css" />
+  </head>
+
+  <body>
+    <div class="header text-center">
+      <h1 class="display-6 fw-bold">CGPA Calculator</h1>
+      <small>For CEG & MIT, AU</small>
+    </div>
+    <div class="content">
+      <div id="popup-content">
+        <div id="data-error">
+          ⚠️ Visit <b>Attendance & Marks</b> section in SEMS for up-to-date data
+        </div>
+        <div id="data-success" class="hidden">
+          <div class="row container">
+            <div class="col-3 container" id="cgpa-div">
+              <div class="lead text-center pt-1">CGPA</div>
+              <div>
+                <button id="detailed-view-btn">Open detailed view</button>
+              </div>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Sem</th>
+                    <th scope="col">GPA</th>
+                    <th scope="col">Credits</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td id="gpa1"></td>
+                    <td id="credits1"></td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td id="gpa2"></td>
+                    <td id="credits2"></td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td id="gpa3"></td>
+                    <td id="credits3"></td>
+                  </tr>
+                  <tr>
+                    <td>4</td>
+                    <td id="gpa4"></td>
+                    <td id="credits4"></td>
+                  </tr>
+                  <tr>
+                    <td>5</td>
+                    <td id="gpa5"></td>
+                    <td id="credits5"></td>
+                  </tr>
+                  <tr>
+                    <td>6</td>
+                    <td id="gpa6"></td>
+                    <td id="credits6"></td>
+                  </tr>
+                  <tr>
+                    <td>7</td>
+                    <td id="gpa7"></td>
+                    <td id="credits7"></td>
+                  </tr>
+                  <tr>
+                    <td>8</td>
+                    <td id="gpa8"></td>
+                    <td id="credits8"></td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="lead text-center">
+                <span id="cgpaCalc"></span>
+                <span id="cgpa" class="fw-bold display-6"></span>
+              </div>
+            </div>
+            <div class="col-2"></div>
+            <div class="col-5 container" id="gpa-div">
+              <div class="lead text-center pt-1">
+                GPA for Sem: <span id="sem"></span>/8
+              </div>
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Sub</th>
+                    <th scope="col">Grade</th>
+                    <th scope="col">Credits</th>
+                    <th scope="col">Points</th>
+                  </tr>
+                </thead>
+                <tbody id="gradesTable"></tbody>
+              </table>
+              <div class="lead text-center">
+                <span id="gpaCalc"></span
+                ><span id="gpa" class="fw-bold display-6"></span>
+              </div>
+            </div>
+          </div>
+          <div id="plot"></div>
+        </div>
+      </div>
+    </div>
+    <script src="../utils/plotly-2.18.0.min.js"></script>
+    <script src="../utils/data.js"></script>
+    <script src="../utils/util.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>
+
+<!-- This extension uses resources from flaticon.com -->
