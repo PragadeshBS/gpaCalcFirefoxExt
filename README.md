@@ -1,4 +1,4 @@
-# GPA Calculator
+# CGPA Calculator - Firefox Add-on
 
 A Firefox extension for calculating CGPA/GPA for CEG & MIT, Anna University students.
 
