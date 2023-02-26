@@ -13,13 +13,28 @@
       });
       return;
     }
-    const regulation = document.querySelector("#regulation").value;
-    const branch = document.querySelector("#branch").value;
-    const semester = document.querySelector("#semester").value;
-    const subjects = document.querySelector("#subjects").children;
+    const regulationNode = document.querySelector("#regulation");
+    const branchNode = document.querySelector("#branch");
+    const semesterNode = document.querySelector("#semester");
+    const subjectsNode = document.querySelector("#subjects");
+
+    // if the above values are not present, then the page is not loaded yet
+    // or the user might be in a different page
+    if (!regulationNode || !branchNode || !semesterNode || !subjectsNode) {
+      browser.runtime.sendMessage({
+        command: "showErr",
+        errMessage: "Not on the grades page",
+      });
+      return;
+    }
+
+    const regulation = regulationNode.value;
+    const branch = branchNode.value;
+    const semester = semesterNode.value;
+    const subjects = subjectsNode.children;
 
     // do not run if there are no subjects in the table (occurs while loading the page)
-    if (subjects.length == 0) {
+    if (!subjects || subjects.length == 0) {
       browser.runtime.sendMessage({
         command: "showErr",
         errMessage: "No subjects found",
