@@ -15,8 +15,9 @@ async function calculateCGPA() {
   // calculate cgpa
   let cgpaPointsSum = 0,
     cgpaCreditsSum = 0,
-    xValues = [],
-    yValues = [];
+    semesters = [],
+    cgpas = [],
+    gpas = [];
 
   await browser.storage.local.get().then((localStorage) => {
     // update the cgpa table
@@ -51,10 +52,11 @@ async function calculateCGPA() {
       // append row to table
       cgpaTableBody.appendChild(newTr);
 
-      xValues.push(i);
+      semesters.push(i);
       cgpaPointsSum += thisSemGpa["totalPoints"];
       cgpaCreditsSum += thisSemGpa["totalCredits"];
-      yValues.push(cgpaPointsSum / cgpaCreditsSum);
+      gpas.push(thisSemGpa["totalPoints"] / thisSemGpa["totalCredits"]);
+      cgpas.push(cgpaPointsSum / cgpaCreditsSum);
     }
   });
 
@@ -69,23 +71,38 @@ async function calculateCGPA() {
   cgpa.textContent = (cgpaPointsSum / cgpaCreditsSum).toFixed(3);
 
   // plot cgpa graph
-  plotGraph(xValues, yValues);
+  plotGraph(semesters, cgpas, gpas);
 }
 
-function plotGraph(x, y) {
+function plotGraph(semesters, cgpas, gpas) {
   const trace1 = {
-    x,
-    y,
-    mode: "lines+markers",
-    marker: {
-      color: "darkslateblue",
-      size: 8,
+      x: semesters,
+      y: cgpas,
+      mode: "lines+markers",
+      marker: {
+        color: "orangered",
+        size: 8,
+      },
+      line: {
+        color: "orangered",
+        width: 1,
+      },
+      name: "CGPA",
     },
-    line: {
-      color: "darkslateblue",
-      width: 1,
-    },
-  };
+    trace2 = {
+      x: semesters,
+      y: gpas,
+      mode: "lines+markers",
+      marker: {
+        color: "#1d3557",
+        size: 8,
+      },
+      line: {
+        color: "#1d3557",
+        width: 1,
+      },
+      name: "GPA",
+    };
   const layout = {
     title: "CGPA Over Semesters",
     xaxis: {
@@ -94,11 +111,11 @@ function plotGraph(x, y) {
       zeroline: false,
     },
     yaxis: {
-      title: "CGPA",
+      title: "Points",
       showline: false,
     },
   };
-  Plotly.newPlot("plot", [trace1], layout);
+  Plotly.newPlot("plot", [trace1, trace2], layout);
 }
 
 function fillGpaTable(semester) {
@@ -162,7 +179,7 @@ function getSemestersWithData() {
   });
 }
 
-function showAddonVersion(){
+function showAddonVersion() {
   const manifestData = browser.runtime.getManifest();
   const version = document.getElementById("version");
   version.textContent = manifestData.version;
