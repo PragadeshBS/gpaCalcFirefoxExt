@@ -19,7 +19,7 @@ Using Chromium or its forks? Checkout the [Chrome Extension](https://github.com/
 ## Screenshots
 
 <img src="screenshots/ss1.png" width="75%">
-<img src="screenshots/ss2.png" width="75%">
+<img src="screenshots/detailPage.png" width="75%">
 
 ## Installation
 
