@@ -330,8 +330,10 @@ dataStore = {
     EC5026: 3,
     EC5027: 3,
 
-    // even semester open electives
+    // open electives
+    ME5691: 3,
     ME5692: 3,
+    PR5691: 3,
     PR5692: 3,
     AU5691: 3,
     AU5692: 3,
@@ -343,7 +345,17 @@ dataStore = {
     EC5695: 3,
     EC5696: 3,
     RP5691: 3,
+    RP5692: 3,
     CS5693: 3,
     CS5694: 3,
+
+    LT5691: 3,
+    CT5691: 3,
+    CT5692: 3,
+    PM5691: 3,
+    IB5691: 3,
+    FT5691: 3,
+    CH5692: 3,
+    AS5692: 3,
   },
 };
