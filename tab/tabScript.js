@@ -49,6 +49,13 @@ async function calculateCGPA() {
       creditsTd.textContent = thisSemGpa["totalCredits"];
       newTr.appendChild(creditsTd);
 
+      // gpa for this sem
+      const gpaTd = document.createElement("td");
+      gpaTd.textContent = (
+        thisSemGpa["totalPoints"] / thisSemGpa["totalCredits"]
+      ).toFixed(3);
+      newTr.appendChild(gpaTd);
+
       // append row to table
       cgpaTableBody.appendChild(newTr);
 
