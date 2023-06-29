@@ -78,6 +78,7 @@ function initScripts() {
   }
 
   async function storeSemData(data) {
+    console.log("data", data);
     // get dom elements
     const noSemsDiv = document.getElementById("no-sems");
     const dataDiv = document.getElementById("data");
@@ -93,10 +94,20 @@ function initScripts() {
       creditsSum = 0;
 
     for (const grade of data.grades) {
-      const credit = getCredit(grade.subCode);
-      const points = credit * gradePoint(grade.grade);
+      // skip if grade is not available
+      if (!grade.grade) {
+        continue;
+      }
+      let credits = 0;
+      if (grade.courseName.toUpperCase().includes("NAAN MUDHALVAN")) {
+        // naan mudhalvan is a 2 credit course
+        credits = 2;
+      } else {
+        credits = getCredit(grade.subCode);
+      }
+      const points = credits * gradePoint(grade.grade);
       pointsSum += points;
-      creditsSum += credit;
+      creditsSum += credits;
     }
 
     // store this semester's points and credits in local storage

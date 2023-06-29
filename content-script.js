@@ -46,8 +46,9 @@
     for (const subject of subjects) {
       const cells = subject.children;
       const subCode = cells[1].textContent;
+      const courseName = cells[2].textContent;
       const grade = cells[cells.length - 1].textContent;
-      grades.push({ subCode, grade });
+      grades.push({ subCode, courseName, grade });
     }
 
     // get data of stored semesters from local storage and add the current semester if not present
