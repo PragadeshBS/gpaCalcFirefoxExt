@@ -25,7 +25,7 @@ Using Chromium or its forks? Checkout the [Chrome Extension](https://github.com/
 
 ### Mozilla Firefox, LibreWolf and most other Firefox forks
 
-Grab the extension from [here](https://addons.mozilla.org/en-US/firefox/addon/aucgpa/)
+Grab the extension from [here](https://addons.mozilla.org/en-US/firefox/addon/augpa/)
 
 ## Usage
 
