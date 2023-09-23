@@ -1,4 +1,7 @@
 function getCredit(subCode) {
+  if (!dataStore.credits[subCode]) {
+    return 0;
+  }
   return dataStore.credits[subCode];
 }
 

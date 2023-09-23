@@ -140,20 +140,14 @@ function fillGpaTable(semester) {
     ).toFixed(3);
 
     for (const subject of thisSemGrades) {
-      let credit = 0;
-      // naan mudalvan is a 2 credit course
-      if (subject.courseName.toUpperCase().includes("NAAN MUDHALVAN")) {
-        credit = 2;
-      } else {
-        credit = getCredit(subject.subCode);
-      }
+      const credit = getCredit(subject.subCode);
       const points = credit * gradePoint(subject.grade);
       const newTr = document.createElement("tr");
 
       // subcode
       const subCodeTd = document.createElement("td");
       subCodeTd.textContent = subject.subCode;
-      if (!subject.grade || subject.points == 0) {
+      if (!subject.grade || points == 0) {
         subCodeTd.textContent = subject.subCode + "*";
         subCodeTd.classList.add("text-danger");
         document

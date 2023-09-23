@@ -78,7 +78,6 @@ function initScripts() {
   }
 
   async function storeSemData(data) {
-    console.log("data", data);
     // get dom elements
     const noSemsDiv = document.getElementById("no-sems");
     const dataDiv = document.getElementById("data");
@@ -98,13 +97,7 @@ function initScripts() {
       if (!grade.grade) {
         continue;
       }
-      let credits = 0;
-      if (grade.courseName.toUpperCase().includes("NAAN MUDHALVAN")) {
-        // naan mudhalvan is a 2 credit course
-        credits = 2;
-      } else {
-        credits = getCredit(grade.subCode);
-      }
+      let credits = getCredit(grade.subCode);
       const points = credits * gradePoint(grade.grade);
       pointsSum += points;
       creditsSum += credits;
