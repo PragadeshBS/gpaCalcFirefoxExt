@@ -7,6 +7,15 @@ async function showErr(err) {
   await calculateCGPA();
 }
 
+function noGradesAssignedForSem(grades) {
+  for (const grade of grades) {
+    if (grade.grade) {
+      return false;
+    }
+  }
+  return true;
+}
+
 async function calculateCGPA() {
   // calculate cgpa
   let cgpaPointsSum = 0,
@@ -18,7 +27,16 @@ async function calculateCGPA() {
     const semesters = localStorage.semesters;
     if (semesters && semesters.length > 0) {
       semesters.sort();
-      dataAvailableSemesters = semesters;
+      for (const sem of semesters) {
+        if (!localStorage[sem + "-grades"]) {
+          continue;
+        }
+        const thisSemGrades = localStorage[sem + "-grades"];
+        if (noGradesAssignedForSem(thisSemGrades)) {
+          continue;
+        }
+        dataAvailableSemesters.push(sem);
+      }
     } else {
       return;
     }
