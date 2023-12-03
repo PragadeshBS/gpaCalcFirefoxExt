@@ -5,7 +5,8 @@ A Firefox extension for calculating CGPA/GPA for CEG & MIT, Anna University stud
 ![](https://komarev.com/ghpvc/?username=PragadeshBSgpaCalcFirefoxExt&label=Views)
 
 ## Features
-- View CGPA 
+
+- View CGPA
 - View GPA for individual semesters
 - Visualize your performance over time with a graph of your CGPA over the semesters
 
