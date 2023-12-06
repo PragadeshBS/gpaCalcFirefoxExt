@@ -1,4 +1,3 @@
-// import Plot from "react-plotly.js";
 import Plotly from "plotly.js-basic-dist";
 import { useEffect, useState } from "preact/hooks";
 import createPlotlyComponent from "react-plotly.js/factory";
@@ -39,7 +38,7 @@ const Graph = ({ pointsCredits }) => {
   }, [pointsCredits]);
 
   return (
-    <div className="my-3 mx-auto overflow-auto">
+    <div className="my-3 w-fit mx-auto overflow-auto">
       <Plot
         data={[
           {
@@ -51,7 +50,7 @@ const Graph = ({ pointsCredits }) => {
             ),
             type: "scatter",
             mode: "lines+markers",
-            marker: { color: "red" },
+            marker: { color: isDarkMode ? "#ffff00" : "#ff0000" },
             name: "GPA",
           },
           {
@@ -59,7 +58,7 @@ const Graph = ({ pointsCredits }) => {
             y: cgpaYValues,
             type: "scatter",
             mode: "lines+markers",
-            marker: { color: "purple" },
+            marker: { color: isDarkMode ? "#00ffff" : "#0000ff" },
             name: "CGPA",
           },
         ]}
@@ -67,10 +66,16 @@ const Graph = ({ pointsCredits }) => {
           width: 600,
           height: 450,
           title: "CGPA & GPA over the semesters",
-          plot_bgcolor: isDarkMode ? "gray" : "white",
-          paper_bgcolor: isDarkMode ? "#FFF3" : "#FFF",
+          plot_bgcolor: isDarkMode ? "#374151" : "#FFF",
+          paper_bgcolor: isDarkMode ? "#1f2937" : "#FFF",
           font: {
             color: isDarkMode ? "white" : "black",
+          },
+          xaxis: {
+            gridcolor: isDarkMode ? "#4a5568" : "#ddd",
+          },
+          yaxis: {
+            gridcolor: isDarkMode ? "#4a5568" : "#ddd",
           },
         }}
       />
