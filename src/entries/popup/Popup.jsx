@@ -14,7 +14,7 @@ const Popup = ({ onGradesPage }) => {
   async function OpenTabView() {
     browser.tabs.create({
       active: true,
-      url: "/src/entries/popup/index.html/#/tab",
+      url: "/src/entries/popup/index.html#tab",
     });
   }
 
