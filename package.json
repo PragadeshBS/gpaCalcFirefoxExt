@@ -24,6 +24,7 @@
     "web-ext": "^7.6.2"
   },
   "dependencies": {
+    "firebase": "^10.7.1",
     "plotly.js-basic-dist": "^2.27.1",
     "preact": "^10.13.2",
     "react-icons": "^4.12.0",

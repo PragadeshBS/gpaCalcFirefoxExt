@@ -2,7 +2,7 @@ import pkg from "../package.json";
 
 const manifest = {
   name: "CGPA Calculator - CEG & MIT, AU",
-  version: "3.1",
+  version: "3.2",
   description: "CGPA calculator for CEG & MIT, Anna University.",
   browser_action: {
     default_icon: "icons/ico-32.png",
