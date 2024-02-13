@@ -27,7 +27,8 @@ const GpaTableBody = ({
     const subjectCode = grades[curSemester][sub].subCode;
     const subjectName = grades[curSemester][sub].courseName;
     const isNaanMudhalvanCourse =
-      appConstants.NAAN_MUDHALVAN_REGEX.test(subjectName);
+      appConstants.NAAN_MUDHALVAN_REGEX.test(subjectCode);
+    console.log(sub, "isNaanMudhalvanCourse", isNaanMudhalvanCourse);
     const truncatedName = subjectName.substring(0, 10) + "...";
     const grade = grades[curSemester][sub].grade;
     const credit = isNaanMudhalvanCourse

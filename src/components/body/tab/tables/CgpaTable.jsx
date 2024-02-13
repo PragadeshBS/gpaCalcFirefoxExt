@@ -19,9 +19,10 @@ const CgpaTable = () => {
       let semTotalPoints = 0;
       let semTotalCredits = 0;
       Object.keys(grades[i]).forEach((sub) => {
+        const subjectCode = grades[i][sub].subCode;
         const subjectName = grades[i][sub].courseName;
         const isNaanMudhalvanCourse =
-          appConstants.NAAN_MUDHALVAN_REGEX.test(subjectName);
+          appConstants.NAAN_MUDHALVAN_REGEX.test(subjectCode);
         const grade = grades[i][sub].grade;
         const credit = isNaanMudhalvanCourse
           ? config[appConstants.NAAN_MUDHALVAN_CONFIG_KEY]

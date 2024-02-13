@@ -34,8 +34,9 @@ export default function calculateCgpaFromLocalData() {
           dataAvailableSemesters.push(sem);
           Object.keys(thisSemGrades).forEach((course) => {
             const subjectName = thisSemGrades[course].courseName;
+            const subjectCode = thisSemGrades[course].subCode;
             const isNaanMudhalvanCourse =
-              appConstants.NAAN_MUDHALVAN_REGEX.test(subjectName);
+              appConstants.NAAN_MUDHALVAN_REGEX.test(subjectCode);
             const grade = thisSemGrades[course].grade;
             const credit = isNaanMudhalvanCourse
               ? naanMudhalvanCourseCredits
